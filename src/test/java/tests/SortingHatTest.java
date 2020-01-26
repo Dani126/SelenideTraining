@@ -23,14 +23,14 @@ public class SortingHatTest extends TestBase {
 //    }
     @Test
     public void itShouldDisplayNameOfHouseSelenide() {
-        open(BASE_URL + "/sortinghat.php");
+        open("/sortinghat.php");
         $(By.cssSelector("button")).click();
         $("img.loading").should(appear).should(disappear);
         $("p.result").shouldBe(visible).shouldNotBe(empty);
     }
     @Test
     public void itShouldDisplayGryffindor(){
-        open(BASE_URL + "/sortinghat.php");
+        open( "/sortinghat.php");
         String generatedHouse = "";
 
         while (!generatedHouse.equals("Gryffindor")) {
@@ -40,8 +40,8 @@ public class SortingHatTest extends TestBase {
         }
     }
 
-    @Test
-    public void waitMoreThanFourSecondsForElement(){
-        $("img.loading").waitUntil(appears,15000);
-    }
+//    @Test
+//    public void waitMoreThanFourSecondsForElement(){
+//        $("img.loading").waitUntil(appears,15000);
+//    }
 }

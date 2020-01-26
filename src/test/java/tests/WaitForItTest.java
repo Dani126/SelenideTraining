@@ -21,7 +21,7 @@ public class WaitForItTest extends TestBase {
 
     @Before
     public void openPage() {
-        open(BASE_URL + "/waitforit.php");
+        open("/waitforit.php");
     }
 
 //    @Test

@@ -22,7 +22,7 @@ public class FellowshipTest extends TestBase {
 
     @Before
     public void openPage() {
-        open(BASE_URL + "/fellowship.php");
+        open("/fellowship.php");
     }
 
     @Test

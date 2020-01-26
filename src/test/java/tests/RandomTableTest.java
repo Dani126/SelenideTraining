@@ -2,6 +2,8 @@ package tests;
 
 import java.util.List;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,26 +13,25 @@ import org.openqa.selenium.WebElement;
 
 import base.TestBase;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class RandomTableTest extends TestBase {
     @Before
     public void openPage() {
         //1.otvorit stranku
-        open(BASE_URL + "/tabulka.php");
+        open("/tabulka.php");
     }
 
     @Test
     public void itShouldContainDataForEachRow() {
-        for (WebElement tableRow : getRows()) {
+        for (SelenideElement tableRow : getRows()) {
             Assert.assertFalse(tableRow.getText().isEmpty());
         }
     }
 
     @Test
     public void itShouldContainNameForEachRow() {
-        List<WebElement> tableRows = getRows();
+        ElementsCollection tableRows = getRows();
         for (WebElement tableRow : tableRows) {
             tableRow.findElement(By.cssSelector("td:nth-child(2)"));
             WebElement rowName = tableRow.findElement(By.xpath("./td[2]"));
@@ -40,8 +41,9 @@ public class RandomTableTest extends TestBase {
 
     @Test
     public void itShouldScrollToLastElement() {
-        WebElement lastRow = $("table > tbody > tr:last-child");
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastRow);
+//        WebElement lastRow = $("table > tbody > tr:last-child");
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastRow);
+        $("table > tbody > tr:last-child").scrollIntoView(false);
     }
 
 //    @Test
@@ -50,7 +52,7 @@ public class RandomTableTest extends TestBase {
 //        System.out.println($("table > tbody > tr",1).find("td",3).getText());
 //    }
 
-    private List<WebElement> getRows() {
-        return driver.findElements(By.cssSelector("table tbody tr"));
+    private ElementsCollection getRows() {
+        return $$("table tbody tr");
     }
 }
