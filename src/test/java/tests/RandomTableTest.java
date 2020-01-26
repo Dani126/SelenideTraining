@@ -11,11 +11,14 @@ import org.openqa.selenium.WebElement;
 
 import base.TestBase;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+
 public class RandomTableTest extends TestBase {
     @Before
     public void openPage() {
         //1.otvorit stranku
-        driver.get(BASE_URL + "/tabulka.php");
+        open(BASE_URL + "/tabulka.php");
     }
 
     @Test
@@ -37,9 +40,15 @@ public class RandomTableTest extends TestBase {
 
     @Test
     public void itShouldScrollToLastElement() {
-        WebElement lastRow = driver.findElement(By.cssSelector("table > tbody > tr:last-child"));
+        WebElement lastRow = $("table > tbody > tr:last-child");
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastRow);
     }
+
+//    @Test
+//    public void hladanieVTabulke(){
+//        System.out.println(driver.findElement(By.xpath("//table/tbody/tr[2]/td[4]")).getText());
+//        System.out.println($("table > tbody > tr",1).find("td",3).getText());
+//    }
 
     private List<WebElement> getRows() {
         return driver.findElements(By.cssSelector("table tbody tr"));

@@ -1,5 +1,6 @@
 package base;
 
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
@@ -8,12 +9,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class TestBase {
     protected WebDriver driver;
-    protected final String BASE_URL = "http://localhost:8888";
+    protected final String BASE_URL = "http://localhost:82";
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/mac/chromedriver75_mac");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/win/chromedriver79_win.exe");
         driver = new ChromeDriver();
+        WebDriverRunner.setWebDriver(driver);
     }
 
     @After

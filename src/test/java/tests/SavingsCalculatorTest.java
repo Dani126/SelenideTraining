@@ -1,6 +1,7 @@
 package tests;
 
 import base.TestBase;
+import com.codeborne.selenide.Condition;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.SavingsCalculatorPage;
 
+import static com.codeborne.selenide.Selectors.byAttribute;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.junit.Assert.*;
 import static org.openqa.selenium.By.cssSelector;
 
@@ -19,7 +23,7 @@ public class SavingsCalculatorTest extends TestBase {
 
     @Before
     public void openPage() {
-        driver.get(BASE_URL.concat("/savingscalculator.php"));
+        open(BASE_URL.concat("/savingscalculator.php"));
         savingsCalculatorPage = new SavingsCalculatorPage(driver);
     }
 
@@ -30,8 +34,16 @@ public class SavingsCalculatorTest extends TestBase {
         savingsCalculatorPage.enterYears(20);
         savingsCalculatorPage.enterEmail("info@furbo.sk");
 
-        assertTrue(savingsCalculatorPage.getApplyButton().isEnabled());
+        //assertTrue(savingsCalculatorPage.getApplyButton().isEnabled());
+        savingsCalculatorPage.getApplyButton().shouldBe(Condition.enabled);
     }
+
+//    @Test
+//    public void najdiPodlaAtributu(){
+//        //driver.findElement(By.xpath("//input[@placeholder='One time investment']")).sendKeys("25");
+//        $(byAttribute("placeholder","One time investment")).sendKeys("20");
+//        System.out.println("nieco");
+//    }
 
     @Test
     public void itShouldDisplayCalculatedAmounts() {
@@ -40,8 +52,10 @@ public class SavingsCalculatorTest extends TestBase {
         savingsCalculatorPage.enterYears(20);
         savingsCalculatorPage.enterEmail("info@furbo.sk");
 
-        assertFalse(savingsCalculatorPage.getCalculatedTotalIncomeElement().getText().isEmpty());
-        assertFalse(savingsCalculatorPage.getCalculatedInterestIncomeElement().getText().isEmpty());
+//        assertFalse(savingsCalculatorPage.getCalculatedTotalIncomeElement().getText().isEmpty());
+//        assertFalse(savingsCalculatorPage.getCalculatedInterestIncomeElement().getText().isEmpty());
+        savingsCalculatorPage.getCalculatedTotalIncomeElement().shouldNotBe(Condition.empty).shouldHave(Condition.text("kr"));
+        savingsCalculatorPage.getCalculatedInterestIncomeElement().shouldNotBe(Condition.empty).shouldHave(Condition.text("kr"));
     }
 
     @Test
@@ -51,7 +65,8 @@ public class SavingsCalculatorTest extends TestBase {
         savingsCalculatorPage.enterYears(20);
         savingsCalculatorPage.enterEmail("info@furbo.sk");
 
-        assertFalse(savingsCalculatorPage.getCalculatedRiskElement().getText().isEmpty());
+//        assertFalse(savingsCalculatorPage.getCalculatedRiskElement().getText().isEmpty());
+        savingsCalculatorPage.getCalculatedRiskElement().shouldNotBe(Condition.empty);
     }
 
 
@@ -87,7 +102,7 @@ public class SavingsCalculatorTest extends TestBase {
         savingsCalculatorPage.applyForSaving();
 
         Actions action = new Actions(driver);
-        WebElement we = driver.findElement(By.cssSelector("div.saving-detail"));
+        WebElement we = $("div.saving-detail");
         action.moveToElement(we).build().perform();
         Thread.sleep(300);
         assertEquals("rgba(4, 102, 156, 1)", we.getCssValue("background-color"));

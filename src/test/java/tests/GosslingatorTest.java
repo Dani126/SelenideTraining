@@ -1,5 +1,7 @@
 package tests;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,63 +12,110 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+
 public class GosslingatorTest {
 
     private WebDriver driver;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver75_mac");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/win/chromedriver79_win.exe");
         driver = new ChromeDriver();
-        driver.get("http://localhost:8888/gosslingator.php");
+        WebDriverRunner.setWebDriver(driver);
+        open("http://localhost:82/gosslingator.php");
     }
 
+//    @Test
+//    public void itShouldDisplayTitle() {
+//        Assert.assertEquals("GOSLINGATE ME", $(".ryan-title").getText());
+//    }
+
     @Test
-    public void itShouldDisplayTitle() {
-        Assert.assertEquals("GOSLINGATE ME", driver.findElement(By.cssSelector(".ryan-title")).getText());
+    public void itShouldDisplayTitleSelenide() {
+        $(".ryan-title").shouldHave(text("GOSLINGATE ME"));
     }
 
+//    @Test
+//    public void itShouldAddOneRyan() {
+//        $(By.id("addRyan")).click();
+//
+//        String actualNumberOfRyans = $(By.id("ryanCounter")).getText();
+//        Assert.assertEquals("1", actualNumberOfRyans);
+//
+//        System.out.println("Number of ryans: " + $("div.ryan-counter h2").getText());
+//        Assert.assertEquals("ryan", $("div.ryan-counter h3").getText());
+//    }
+
     @Test
-    public void itShouldAddOneRyan() {
-        driver.findElement(By.id("addRyan")).click();
+    public void itShouldAddOneRyanSelenide() {
+        $(By.id("addRyan")).click();
+        $(By.id("ryanCounter")).shouldHave(text("1"));;
 
-        String actualNumberOfRyans = driver.findElement(By.id("ryanCounter")).getText();
-        Assert.assertEquals("1", actualNumberOfRyans);
-
-        System.out.println("Number of ryans: " + driver.findElement(By.cssSelector("div.ryan-counter h2")).getText());
-        Assert.assertEquals("ryan", driver.findElement(By.cssSelector("div.ryan-counter h3")).getText());
+        System.out.println("Number of ryans: " + $("div.ryan-counter h2").getText());
+        $("div.ryan-counter h3").shouldHave(text("ryan"));
     }
 
+//    @Test
+//    public void itShouldTwoRyans() {
+//        $(By.id("addRyan")).click();
+//        $(By.id("addRyan")).click();
+//
+//        String actualNumberOfRyans = $(By.id("ryanCounter")).getText();
+//        String actualRyanDescription = $("div.ryan-counter h3").getText();
+//
+//        Assert.assertEquals("2", actualNumberOfRyans);
+//        Assert.assertEquals("ryans", actualRyanDescription);
+//    }
+
     @Test
-    public void itShouldTwoRyans() {
-        driver.findElement(By.id("addRyan")).click();
-        driver.findElement(By.id("addRyan")).click();
+    public void itShouldTwoRyansSelenide() {
+        $(By.id("addRyan")).click();
+        $(By.id("addRyan")).click();
 
-        String actualNumberOfRyans = driver.findElement(By.id("ryanCounter")).getText();
-        String actualRyanDescription = driver.findElement(By.cssSelector("div.ryan-counter h3")).getText();
-
-        Assert.assertEquals("2", actualNumberOfRyans);
-        Assert.assertEquals("ryans", actualRyanDescription);
+        $(By.id("ryanCounter")).shouldHave(text("2"));
+        $("div.ryan-counter h3").shouldHave(text("ryans"));
     }
 
+//    @Test
+//    public void itShouldDisplayWarningMessage() {
+//        WebElement addRyanButton = $(By.id("addRyan"));
+//        for (int i = 0; i < 50; i++) {
+//            addRyanButton.click();
+//        }
+//        Assert.assertEquals(
+//                "NUMBER OF\n" +
+//                        "RYANS\n" +
+//                        "IS TOO DAMN\n" +
+//                        "HIGH",
+//                $("h1.tooManyRyans").getText()
+//        );
+//    }
+
     @Test
-    public void itShouldDisplayWarningMessage() {
-        WebElement addRyanButton = driver.findElement(By.id("addRyan"));
+    public void itShouldDisplayWarningMessageSelenide() {
+        WebElement addRyanButton = $(By.id("addRyan"));
         for (int i = 0; i < 50; i++) {
             addRyanButton.click();
         }
-        Assert.assertEquals(
-                "NUMBER OF\n" +
+        $("h1.tooManyRyans").shouldHave(text("NUMBER OF\n" +
                         "RYANS\n" +
                         "IS TOO DAMN\n" +
-                        "HIGH",
-                driver.findElement(By.cssSelector("h1.tooManyRyans")).getText()
-        );
+                        "HIGH"));
     }
 
+//    @Test
+//    public void itShouldDisplayNoRyanOnPageOpen() {
+//        Assert.assertEquals(0, driver.findElements(By.cssSelector("img")).size());
+//    }
+
     @Test
-    public void itShouldDisplayNoRyanOnPageOpen() {
-        Assert.assertEquals(0, driver.findElements(By.cssSelector("img")).size());
+    public void itShouldDisplayNoRyanOnPageOpenSelenide() {
+        $("img").shouldBe(Condition.hidden);
+        $(By.id("ryanCounter")).shouldHave(text("0"));
+
     }
 
     @After
