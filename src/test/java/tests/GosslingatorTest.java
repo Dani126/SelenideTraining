@@ -1,6 +1,9 @@
 package tests;
 
+import base.TestBase;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,19 +16,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
-public class GosslingatorTest {
+public class GosslingatorTest extends TestBase {
 
-    private WebDriver driver;
+//    private WebDriver driver;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/win/chromedriver79_win.exe");
-        driver = new ChromeDriver();
-        WebDriverRunner.setWebDriver(driver);
-        open("http://localhost:82/gosslingator.php");
+//        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/win/chromedriver79_win.exe");
+//        driver = new ChromeDriver();
+//        WebDriverRunner.setWebDriver(driver);
+        open("/gosslingator.php");
     }
 
 //    @Test
@@ -118,9 +120,23 @@ public class GosslingatorTest {
 
     }
 
-    @After
-    public void tearDown() {
-        driver.close();
-        driver.quit();
+    @Test
+    public void itShouldRemoveRyanHeadByClickingOnImage(){
+        addRyan(30);
+
+        $$("img").forEach(SelenideElement::click);
+        $$("im").shouldHave(CollectionCondition.size(0));
     }
+
+    private void addRyan(int i) {
+        for (int j = 0; j < i; j++) {
+            $(By.id("addRyan")).click();
+        }
+    }
+
+//    @After
+//    public void tearDown() {
+//        driver.close();
+//        driver.quit();
+//    }
 }

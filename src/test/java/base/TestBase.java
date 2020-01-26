@@ -1,26 +1,29 @@
 package base;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.Browser;
+import com.codeborne.selenide.Browsers;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Configuration.*;
 
 public class TestBase {
     protected WebDriver driver;
-//    protected final String BASE_URL = "http://localhost:82";
+
+    //    protected final String BASE_URL = "http://localhost:82";
     static {
         baseUrl = "http://localhost:82";
         timeout = 4000;
         pollingInterval = 200;
-        //headless = true;
+//        headless = true;
         startMaximized = true;
         holdBrowserOpen = true;
-
+        clickViaJs = true;
+//        browser = Browsers.FIREFOX;
+//        remote = "localhost:4444/wd/hub";
+        reportsFolder = "src\\test\\resources\\reporty";
+//        reportsUrl = cesta na web napr pre Jenkins
     }
 
     @Before
